@@ -5,15 +5,25 @@ import Icon56UsersOutline from '@vkontakte/icons/dist/56/users_outline';
 import axios, { post } from 'axios';
 
 const getAge = (age) => {
-    return age && age !== 'undefined' ? 'Возраст: ' + age : 'Возраст не указан';
+    return age && typeof age !== 'undefined' ? 'Возраст: ' + age : 'Возраст не указан';
 };
 
 const getCity = (city) => {
-    return city && city != 'undefined' ? city : 'Город не указан';
+    return city && typeof city != 'undefined' ? city : 'Город не указан';
 };
 
 const getProfile = (id) => {
     return `https://vk.com/id${id}`;
+};
+
+const getImage = (details) => {
+    if (typeof details[1] != 'undefined') {
+        return details[1].url;
+    }
+
+    if (typeof details[0] != 'undefined') {
+        return details[0].url;
+    }
 };
 
 const Actions = ({ city, id }) => {
@@ -22,12 +32,12 @@ const Actions = ({ city, id }) => {
     );
 };
 
-const UserItem = ({ firstname, age, city, image, thumbnail, id }) => {
+const UserItem = ({ firstname, age, city, details, thumbnail, id }) => {
     return (
         <Cell photo={ thumbnail }
               description={ getAge(age) + ', ' + getCity(city) }
               bottomContent={ <Actions city={ city } id={ id }/> }
-              before={<Avatar src={ image } size={80}/> }
+              before={<Avatar src={ getImage(details) } size={80}/> }
               size="l"
         >
             { firstname }
@@ -114,7 +124,7 @@ export default class extends React.Component {
                 return (
                     <UserItem key={ c }
                               firstname={ i.firstname }
-                              image={ i.details[1].url }
+                              details={ i.details }
                               thumbnail={ i.thumbnail }
                               age={ i.age }
                               city={ i.city }
