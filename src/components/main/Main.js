@@ -77,7 +77,7 @@ export default class extends React.Component {
     };
 
     fileUpload = (file) => {
-        const url = 'https://zikwall.ru/site/upload2';
+        const url = 'https://zikwall.ru/site/upload3';
         const formData = new FormData();
         formData.append('imageFile', file);
         const config = {
@@ -87,6 +87,10 @@ export default class extends React.Component {
         };
 
         return post(url, formData, config)
+    };
+
+    isVisisbleSearchButton = () => {
+        return this.state.imageFile != null && this.state.isProcessed === false;
     };
 
     render() {
@@ -134,6 +138,10 @@ export default class extends React.Component {
             })
         }
 
+        let button = this.isVisisbleSearchButton()
+            ? <Button size="xl">Пожалуйста найдись!</Button>
+            : null;
+
         return (
             <>
                 { place }
@@ -144,7 +152,7 @@ export default class extends React.Component {
                           before={<Icon24Document />}
                           size="xl" level="secondary"
                     />
-                    <Button size="xl">Пожалуйста найдись!</Button>
+                    { button }
                 </FormLayout>
 
                 <Group title="Результаты">
