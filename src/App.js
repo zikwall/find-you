@@ -20,7 +20,7 @@ const App = () => {
                     <PanelHeader>Ищу тебя <Heart /></PanelHeader>
                     <Main/>
 
-                    <Footer> status:@dev-v1.1.2 </Footer>
+                    <Footer> status:@dev-v1.1.3 </Footer>
                 </Panel>
             </View>
         </Root>
