@@ -77,7 +77,7 @@ export default class extends React.Component {
     };
 
     fileUpload = (file) => {
-        const url = 'http://c95202tj.bget.ru/site/upload2';
+        const url = 'https://zikwall.ru/site/upload2';
         const formData = new FormData();
         formData.append('imageFile', file);
         const config = {
