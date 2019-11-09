@@ -2,7 +2,7 @@ import React from 'react';
 import { Div, File, FormLayout, Button, Placeholder, Group, Cell, Avatar, Spinner } from "@vkontakte/vkui";
 import Icon24Document from '@vkontakte/icons/dist/24/document';
 import Icon56UsersOutline from '@vkontakte/icons/dist/56/users_outline';
-import axios, { post } from 'axios';
+import { post, get } from 'axios';
 
 const getAge = (age) => {
     return age && typeof age !== 'undefined' ? 'Возраст: ' + age : 'Возраст не указан';
@@ -63,6 +63,22 @@ export default class extends React.Component {
 
         let response = await this.fileUpload(this.state.imageFile);
 
+        if (typeof response.data.res === 'undefined') {
+            this.setState({
+                isProcessed: false
+            });
+
+            return ;
+        }
+
+        /**
+         * TODO
+         * if many faces draw boxes for select face and next confirm
+         */
+        if (typeof response.data.res.faceBoxes !== 'undefined') {
+            response = await get('https://zikwall.ru/findyouapi/recognize/confirm?face=0');
+        }
+
         await this.setState({
             response: response.data.res,
             isProcessed: false
@@ -77,7 +93,7 @@ export default class extends React.Component {
     };
 
     fileUpload = (file) => {
-        const url = 'https://zikwall.ru/site/upload2';
+        const url = 'https://zikwall.ru/findyouapi/recognize/face';
         const formData = new FormData();
         formData.append('imageFile', file);
         const config = {
